@@ -4,37 +4,28 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Validator;
+
+use App\DataSiswa;
+
 class LaporanTransaksiController extends Controller
 {
 
     public function index()
       {
-          
+
           return view('/admin/laporantransaksi/laporantransaksi')
           ->with(compact('laporantransaksi'));
-      }
-
-      public function tambah()
-      {
-          return view('/admin/laporantransaksi/laporantransaksi_tambah');
       }
 
       public function store(Request $request)
       {
           $rules = [
             'nis' => 'required',
-            'nama' => 'required',
-            'jk' => 'required',
-            'kelas' => 'required',
-            'tahunajaran' => 'required'
           ];
 
           $messages = [
               'nis.required'          => 'NIS Wajib Diisi wajib diisi',
-              'nama.required'          => 'Nama Wajib Diisi wajib diisi',
-              'jk.required'          => 'Jenis Kelamin Wajib Diisi wajib diisi',
-              'kelas.required'          => 'Kelas Wajib Diisi wajib diisi',
-              'tahunajaran.required'          => 'Tahun Ajaran Wajib Diisi wajib diisi'
           ];
 
           $validator = Validator::make($request->all(), $rules, $messages);
@@ -43,13 +34,12 @@ class LaporanTransaksiController extends Controller
               return redirect()->back()->withErrors($validator)->withInput($request->all);
           }
 
-          $simpan = laporantransaksi::create([
-              'nis' => $request->nis,
-              'nama' => $request->nama,
-              'jk' => $request->jk,
-              'kelas' => $request->kelas,
-              'tahunajaran' => $request->tahunajaran,
-          ]);
+          $simpan = $cari = $request->nis;
+          $laporantransaksi = DataSiswa::where('nis', $simpan)->first();
+
+          return view('/admin/laporantransaksi/laporantransaksi_cetak')
+          ->with(compact('simpan'))
+          ->with(compact('laporantransaksi'));
 
           if($simpan){
               Session::flash('success', 'Data Berhasil Ditambahkan');

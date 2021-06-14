@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin Sistem Tabungan Siswa | Laporan Transaksi</title>
+  <title>Admin Sistem Tabungan Siswa | Laporan Transaksi {{$laporantransaksi->nama}}</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -126,7 +126,7 @@
 
           <!-- Data Anggota -->
           <li class="nav-item">
-            <a href="/admin/datasiswa" class="nav-link">
+            <a href="/admin/laporantransaksi" class="nav-link">
             <i class="fas fa-user-friends nav-icon"></i>
               <p>
                 Data Siswa
@@ -218,10 +218,8 @@
                 @endif
                <div class="card-body">
                  <div class="card-header">
-                     <strong class="text-center">- isi form berikut untuk melihat informasi transaksi salah satu siswa</strong>
+                     <strong class="text-center">Hasil Laporan Transaksi</strong>
                  </div>
-                 <form action="/admin/laporantransaksi/store" method="post">
-                 @csrf
                  <div class="card-body">
                      @if(session('errors'))
                          <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -237,13 +235,22 @@
                          </div>
                      @endif
                      <div class="form-group">
-                         <label for=""><strong>NIS</strong></label>
-                         <input type="text" name="nis" class="form-control" placeholder="NIS">
+                         <label for=""><strong>NIS : {{$laporantransaksi->nis}}</strong></label>
+                         <input type="text" name="nis" class="form-control" value="{{$laporantransaksi->nis}}" hidden></br>
+                         <label for=""><strong>Nama : {{$laporantransaksi->nama}}</strong></label>
+                         <input type="text" name="nama" class="form-control" value="{{$laporantransaksi->nama}}" hidden></br>
+                         <label for=""><strong>Jenis Kelamin : {{$laporantransaksi->jk}}</strong></label>
+                         <input type="text" name="jk" class="form-control" value="{{$laporantransaksi->jk}}" hidden></br>
+                         <label for=""><strong>Kelas : {{$laporantransaksi->kelas}}</strong></label>
+                         <input type="text" name="kelas" class="form-control" value="{{$laporantransaksi->kelas}}" hidden></br>
+                         <label for=""><strong>Tahun Ajaran : {{$laporantransaksi->tahunajaran}}</strong></label>
+                         <input type="text" name="tahunajaran" class="form-control" value="{{$laporantransaksi->tahunajarans}}" hidden>
                      </div>
                  <div class="card-footer">
-                     <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                     <button type="/admin/laporantransaksi/cetak_setoran" class="btn btn-primary btn-block">Cetak Setoran</button>
+                     <button type="/admin/laporantransaksi/cetak_penarikan" class="btn btn-primary btn-block">Cetak Penarikan</button>
+                     <button type="/admin/laporantransaksi/cetak_total" class="btn btn-primary btn-block">Cetak Total Saldo</button>
                  </div>
-                 </form>
                </div>
                <!-- /.card-body -->
                <div class="card-footer clearfix">

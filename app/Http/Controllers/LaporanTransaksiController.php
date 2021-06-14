@@ -8,6 +8,12 @@ use Validator;
 
 use App\DataSiswa;
 
+use App\TransaksiSetoran;
+
+use App\TransaksiPenarikan;
+
+use PDF;
+
 class LaporanTransaksiController extends Controller
 {
 
@@ -50,81 +56,28 @@ class LaporanTransaksiController extends Controller
           }
       }
 
-      public function edit($id)
+      public function cetak_pdf(Request $request)
       {
-          $laporantransaksi = laporantransaksi::where('id', $id)->first();
-          return view('/admin/laporantransaksi/laporantransaksi_edit', ['laporantransaksi' => $laporantransaksi]);
-      }
 
+        $nis = $request->nis;
+        $setoran = $request->setoran;
+        $penarikan = $request->penarikan;
+        $total = $request->total;
+        if (isset($setoran)) {
+          $simpan = TransaksiSetoran::select('transaksi_setoran.*')->Where('data_siswa.nis','LIKE','%'.$nis.'%')
+          ->join('data_siswa', 'transaksi_setoran.id_siswa', '=', 'data_siswa.id')
+          ->orderBy('data_siswa.nama');
 
-      public function update(Request $request, $id)
-      {
-        $rules = [
-          'nis' => 'required',
-          'nama' => 'required',
-          'jk' => 'required',
-          'kelas' => 'required',
-          'tahunajaran' => 'required'
-        ];
-
-        $messages = [
-            'nis.required'          => 'NIS Wajib Diisi wajib diisi',
-            'nama.required'          => 'Nama Wajib Diisi wajib diisi',
-            'jk.required'          => 'Jenis Kelamin Wajib Diisi wajib diisi',
-            'kelas.required'          => 'Kelas Wajib Diisi wajib diisi',
-            'tahunajaran.required'          => 'Tahun Ajaran Wajib Diisi wajib diisi'
-        ];
-
-        $validator = Validator::make($request->all(), $rules, $messages);
-
-        if($validator->fails()){
-            return redirect()->back()->withErrors($validator)->withInput($request->all);
+          $data = [
+              'simpan'     => $simpan
+          ];
+          
+          $pdf = PDF::loadview('/admin/laporantransaksi/laporantransaksi_cetak_setoran',$data);
+          return $pdf->stream();
+        }elseif (isset($penarikan)) {
+          $simpan = TransaksiPenarikan::find($nis);
+          $pdf = PDF::loadview('/admin/laporantransaksi/laporantransaksi_cetak_penarikan', ['simpan' => $simpan]);
+          return $pdf->stream();
         }
-
-          $laporantransaksi = laporantransaksi::where('id', $id)->first();
-          $laporantransaksi->nis = $request->nis;
-          $laporantransaksi->nama = $request->nama;
-          $laporantransaksi->jk = $request->jk;
-          $laporantransaksi->kelas = $request->kelas;
-          $laporantransaksi->tahunajaran = $request->tahunajaran;
-          $simpan = $laporantransaksi->save();
-
-          if($simpan){
-              Session::flash('success', 'Data Berhasil Diedit');
-              return redirect('admin/laporantransaksi');
-          } else {
-              Session::flash('errors', ['' => 'Terjadi Kesalahan...']);
-              return redirect('admin/laporantransaksi');
-          }
-      }
-
-      public function destroy($id)
-      {
-          $laporantransaksi = laporantransaksi::where('id', $id)->first();
-          $hapus = $laporantransaksi->delete();
-          if($hapus){
-              Session::flash('success', 'Data Berhasil Dihapus');
-              return redirect('admin/laporantransaksi');
-          } else {
-              Session::flash('errors', ['' => 'Terjadi Kesalahan...']);
-              return redirect('admin/laporantransaksi');
-          }
-      }
-
-      public function search(Request $request)
-      {
-          $cari = $request->search;
-          $hasilcari = $laporantransaksi = laporantransaksi::where('nis','LIKE','%'.$cari.'%')
-          ->orWhere('nama','LIKE','%'.$cari.'%')
-          ->orWhere('jk','LIKE','%'.$cari.'%')
-          ->orWhere('kelas','LIKE','%'.$cari.'%')
-          ->orWhere('tahunajaran','LIKE','%'.$cari.'%')
-          ->paginate(5);
-
-          if($hasilcari){
-              Session::flash('success', 'Data Berhasil Ditemukan, Menampilkan Data');
-              return view('/admin/laporantransaksi/laporantransaksi', ['laporantransaksi' => $hasilcari]);
-          }
-
-      }
+    }
 }

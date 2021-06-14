@@ -185,12 +185,13 @@
        <div class="container-fluid">
          <div class="row mb-2">
            <div class="col-sm-6">
-             <h1 class="m-0">Laporan Transaksi</h1>
+
            </div><!-- /.col -->
            <div class="col-sm-6">
              <ol class="breadcrumb float-sm-right">
                <li class="breadcrumb-item"><a href="/admin">Home</a></li>
-               <li class="breadcrumb-item active">Laporan Transaksi</li>
+               <li class="breadcrumb-item"><a href="/admin/laporantransaksi">Laporan Transaksi</a></li>
+               <li class="breadcrumb-item active">{{$laporantransaksi->nama}}</li>
              </ol>
            </div><!-- /.col -->
          </div><!-- /.row -->
@@ -218,8 +219,10 @@
                 @endif
                <div class="card-body">
                  <div class="card-header">
-                     <strong class="text-center">Hasil Laporan Transaksi</strong>
+                     <center><strong class="text-center">Hasil Laporan Transaksi</strong></center>
                  </div>
+                 <form action="/admin/laporantransaksi/cetak" method="get">
+                 @csrf
                  <div class="card-body">
                      @if(session('errors'))
                          <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -247,14 +250,14 @@
                          <input type="text" name="tahunajaran" class="form-control" value="{{$laporantransaksi->tahunajarans}}" hidden>
                      </div>
                  <div class="card-footer">
-                     <button type="/admin/laporantransaksi/cetak_setoran" class="btn btn-primary btn-block">Cetak Setoran</button>
-                     <button type="/admin/laporantransaksi/cetak_penarikan" class="btn btn-primary btn-block">Cetak Penarikan</button>
-                     <button type="/admin/laporantransaksi/cetak_total" class="btn btn-primary btn-block">Cetak Total Saldo</button>
+                     <button type="submit" name="setoran" value="setoran" class="btn btn-primary btn-block">Cetak Setoran</button>
+                     <button type="submit" name="penarikan" value="penarikan" class="btn btn-primary btn-block">Cetak Penarikan</button>
+                     <button type="submit" name="total" value="total" class="btn btn-primary btn-block">Cetak Penarikan</button>
                  </div>
                </div>
+               <form>
                <!-- /.card-body -->
                <div class="card-footer clearfix">
-
                </div>
              </div>
        </div><!-- /.container-fluid -->

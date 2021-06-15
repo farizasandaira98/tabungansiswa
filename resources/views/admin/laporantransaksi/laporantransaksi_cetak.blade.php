@@ -231,9 +231,6 @@
                                  <span aria-hidden="true">×</span>
                              </button>
                              <ul>
-                             @foreach ($errors->all() as $error)
-                             <li>{{ $error }}</li>
-                             @endforeach
                              </ul>
                          </div>
                      @endif
@@ -248,11 +245,15 @@
                          <input type="text" name="kelas" class="form-control" value="{{$laporantransaksi->kelas}}" hidden></br>
                          <label for=""><strong>Tahun Ajaran : {{$laporantransaksi->tahunajaran}}</strong></label>
                          <input type="text" name="tahunajaran" class="form-control" value="{{$laporantransaksi->tahunajarans}}" hidden>
+                         <hr>
+                        <label for=""><strong>Jumlah Setoran : {{$setoran}}</strong></label></br>
+                        <label for=""><strong>Jumlah Penarikan : {{$penarikan}}</strong></label></br>
+                        <label for=""><strong>Total Saldo : {{$total}}</strong></label>
                      </div>
                  <div class="card-footer">
                      <button type="submit" name="setoran" value="setoran" class="btn btn-primary btn-block">Cetak Setoran</button>
                      <button type="submit" name="penarikan" value="penarikan" class="btn btn-primary btn-block">Cetak Penarikan</button>
-                     <button type="submit" name="total" value="total" class="btn btn-primary btn-block">Cetak Penarikan</button>
+                     <button type="submit" name="total" value="total" class="btn btn-primary btn-block">Cetak Total Saldo</button>
                  </div>
                </div>
                <form>

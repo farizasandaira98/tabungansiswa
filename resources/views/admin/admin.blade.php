@@ -196,7 +196,7 @@
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>2</h3>
+                <h3>{{$datasiswa}}</h3>
                 <p>Total Siswa</p>
               </div>
               <div class="icon">
@@ -210,7 +210,7 @@
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>2</h3>
+                <h3>{{$total}}</h3>
                 <p>Total Saldo</p>
               </div>
               <div class="icon">

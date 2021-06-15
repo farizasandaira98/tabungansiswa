@@ -17,15 +17,15 @@
     </tr>
     </table>
     <hr>
-    <h6 align="center">Data Siswa</h6>
+    <h4 align="center">Data Transaksi Setoran</h4>
+		<h6 align="center">NIS : {{$nis}}</h6>
+		<h6 align="center">Nama : {{$nama}}</h6>
+		<h6 align="center">Kelas : {{$kelas}}</h6>
 	<table class='table table-bordered'>
 		<thead>
                 <tr style="text-align: center;">
                   <th>No</th>
                   <th>Tanggal Setoran</th>
-                  <th>NIS</th>
-                  <th>Nama Siswa</th>
-                  <th>Kelas</th>
                   <th>Nominal</th>
                     </tr>
               </thead>
@@ -34,18 +34,14 @@
                 <tr>
                   <td>{{ $loop->iteration }}</td>
                   <td>{{ $ang->tanggalsetoran }}</td>
-                  <td>
-                    {{$ang->data_siswa->nis}}
-                  </td>
-                  <td>
-                 {{$ang->data_siswa->nama}}
-                 </td>
-                 <td>
-                   {{$ang->data_siswa->kelas}}
-                 </td>
                  <td>{{ $ang->nominal }}</td>
-                    </tr>
-                    @endforeach
+							 </tr>
+							 <tr>
+							  <td colspan="2">Jumlah Total Setoran :</td>
+								<td colspan="1">{{ $simpan->sum('nominal') }}</td>
+						   </tr>
+                @endforeach
+
               </tbody>
 	</table>
 </body>

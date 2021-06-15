@@ -1,6 +1,6 @@
 <html>
 <head>
-	  <title>Admin Sistem Tabungan Siswa | Cetak Data Transaksi Penarikan</title>
+	  <title>Admin Sistem Tabungan Siswa | Cetak Data Transaksi Total</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
@@ -17,33 +17,27 @@
     </tr>
     </table>
     <hr>
-    <h6 align="center">Data Siswa</h6>
-		<h4 align="center">Data Transaksi Penarikan</h4>
+    <h4 align="center">Data Transaksi Setoran</h4>
 		<h6 align="center">NIS : {{$nis}}</h6>
 		<h6 align="center">Nama : {{$nama}}</h6>
 		<h6 align="center">Kelas : {{$kelas}}</h6>
 	<table class='table table-bordered'>
 		<thead>
-								<tr style="text-align: center;">
-									<th>No</th>
-									<th>Tanggal Penarikan</th>
-									<th>Nominal</th>
-										</tr>
-							</thead>
-							<tbody>
-								@foreach($simpan as $ang)
-								<tr>
-									<td>{{ $loop->iteration }}</td>
-									<td>{{ $ang->tanggalpenarikan }}</td>
-								 <td>{{ $ang->nominal }}</td>
-							 </tr>
+              </thead>
+              <tbody>
 							 <tr>
+							  <td colspan="2">Jumlah Total Setoran :</td>
+								<td colspan="1">{{ $simpan1 }}</td>
+							</tr>
+								<tr>
 								<td colspan="2">Jumlah Total Penarikan :</td>
-								<td colspan="1">{{ $simpan->sum('nominal') }}</td>
-							 </tr>
-								@endforeach
-
-							</tbody>
+							 <td colspan="1">{{ $simpan }}</td>
+						 </tr>
+						 <tr>
+							 <td colspan="2">Jumlah Total Saldo :</td>
+							 <td colspan="1">{{ $simpan2 }}</td>
+						   </tr>
+              </tbody>
 	</table>
 </body>
 </html>

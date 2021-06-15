@@ -4,13 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
-
+use App\DataSiswa;
+Use App\TransaksiSetoran;
+Use App\TransaksiPenarikan;
 use Session;
+
 class AdminController extends Controller
 {
   public function index()
   {
-      return view('admin/admin');
+    $penarikan = TransaksiPenarikan::sum('nominal');
+    $setoran = TransaksiSetoran::sum('nominal');
+    $total = $setoran-$penarikan;
+    $user = User::count('name');
+    $datasiswa = DataSiswa::count('nama');
+    return view('admin/admin')
+    ->with(compact('setoran'))
+    ->with(compact('penarikan'))
+    ->with(compact('total'))
+    ->with(compact('user'))
+    ->with(compact('datasiswa'));
   }
 
   public function dataadmin()
